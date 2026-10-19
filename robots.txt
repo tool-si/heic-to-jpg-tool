@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tools-si.github.io/heic-to-jpg-tool/sitemap.xml
+Sitemap: https://tool-si.github.io/heic-to-jpg-tool/sitemap.xml
