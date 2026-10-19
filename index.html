@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Convert HEIC photos to JPG online in your browser. Select photos, adjust JPG quality, and download converted images.">
+<meta name="theme-color" content="#f7f9fc">
+<title>HEIC to JPG Converter — Free Online Photo Converter</title>
+<style>
+:root{--ink:#152238;--muted:#5f6e82;--blue:#2459e0;--blue2:#eaf0ff;--line:#dfe6f0;--bg:#f7f9fc;--green:#16794b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:var(--blue)}.wrap{width:min(1080px,calc(100% - 32px));margin:auto}.top{display:flex;justify-content:space-between;align-items:center;padding:20px 0}.brand{font-size:20px;font-weight:800;letter-spacing:-.5px}.brand span{color:var(--blue)}.pill{font-size:13px;color:#2352b7;background:var(--blue2);padding:7px 11px;border-radius:99px;font-weight:700}
+.hero{text-align:center;padding:46px 0 22px}.eyebrow{color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:12px}.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.08;letter-spacing:-2px;margin:12px 0}.hero p{max-width:660px;margin:0 auto;color:var(--muted);font-size:18px}
+.panel{max-width:800px;margin:28px auto;background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 16px 50px #17345c0c}
+.drop{border:2px dashed #b7c8e5;background:#fbfcff;border-radius:16px;text-align:center;padding:32px 18px;cursor:pointer;transition:.15s}.drop.drag{background:var(--blue2);border-color:var(--blue)}.upload-icon{width:54px;height:54px;border-radius:16px;background:var(--blue2);color:var(--blue);display:grid;place-items:center;font-size:26px;margin:0 auto 12px}.drop h2{margin:0 0 5px;font-size:21px}.muted{color:var(--muted)}.small{font-size:13px}.btn{border:0;background:var(--blue);color:white;font-weight:800;padding:13px 20px;border-radius:11px;cursor:pointer;font-size:15px}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:#eef2f8;color:var(--ink)}.controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin:20px 0}.quality{display:flex;align-items:center;gap:10px;flex:1;min-width:240px}.quality input{width:100%;accent-color:var(--blue)}.files{display:grid;gap:10px}.file{display:flex;gap:12px;align-items:center;border:1px solid var(--line);padding:12px;border-radius:12px}.thumb{width:48px;height:48px;object-fit:cover;border-radius:8px;background:#eef2f8}.fileinfo{flex:1;min-width:0}.filename{font-weight:700;overflow-wrap:anywhere}.status{font-size:13px;color:var(--muted)}.status.ok{color:var(--green)}.status.err{color:#b42318}.download{font-size:13px;font-weight:800;white-space:nowrap}.notice{background:#f4f8ff;border-radius:12px;padding:13px 15px;color:#40536d;font-size:13px;margin-top:16px}.section{padding:28px 0}.section h2{font-size:27px;letter-spacing:-.7px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}.card h3{margin:7px 0;font-size:17px}.card p{margin:0;color:var(--muted);font-size:14px}.icon{font-size:23px}.faq details{background:#fff;border:1px solid var(--line);padding:16px;border-radius:12px;margin:9px 0}.faq summary{font-weight:750;cursor:pointer}.faq p{color:var(--muted);margin-bottom:0}.footer{border-top:1px solid var(--line);margin-top:35px;padding:25px 0;color:var(--muted);font-size:13px}.footerlinks{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}.footer a{color:inherit}
+@media(max-width:650px){.hero{padding-top:28px}.hero p{font-size:16px}.panel{padding:14px;border-radius:17px}.drop{padding:25px 12px}.grid{grid-template-columns:1fr}.controls{align-items:stretch}.controls .btn{width:100%}.quality{min-width:100%}.file{align-items:flex-start}.download{white-space:normal}}
+</style>
+</head>
+<body>
+<header class="wrap top"><div class="brand">Convert<span>Kit</span></div><div class="pill">Free browser-based tool</div></header>
+<main class="wrap">
+<section class="hero"><div class="eyebrow">Simple · Fast · Private by design</div><h1>HEIC to JPG Converter</h1><p>Convert iPhone photos from HEIC to JPG in a few simple steps. Choose your photos, set image quality, and download the results.</p></section>
+<section class="panel" aria-label="HEIC converter">
+  <div id="drop" class="drop" tabindex="0" role="button" aria-label="Choose HEIC photos">
+    <div class="upload-icon">↑</div><h2>Drop your HEIC photos here</h2><div class="muted">or choose files from your device</div>
+    <div style="margin-top:17px"><button id="choose" class="btn" type="button">Choose HEIC files</button></div>
+    <div class="small muted" style="margin-top:12px">Select one or more .heic or .heif files</div>
+  </div>
+  <input id="picker" type="file" accept=".heic,.heif,image/heic,image/heif" multiple hidden>
+  <div class="controls"><label class="quality"><strong>JPG quality</strong><input id="quality" type="range" min="50" max="100" value="90"><span id="qvalue">90%</span></label><button id="convert" class="btn" disabled>Convert selected files</button></div>
+  <div id="summary" class="muted small" aria-live="polite">No files selected yet.</div>
+  <div id="files" class="files" style="margin-top:12px"></div>
+  <div class="notice"><strong>Privacy note:</strong> This starter is designed to process photos in your browser. The conversion library is loaded from a third-party CDN; review the library and network behavior before making privacy promises. Very large files may fail on devices with limited memory.</div>
+</section>
+<section class="section"><h2>How it works</h2><div class="grid">
+<div class="card"><div class="icon">📤</div><h3>1. Choose photos</h3><p>Select one or multiple HEIC/HEIF images from your device.</p></div>
+<div class="card"><div class="icon">⚙️</div><h3>2. Convert to JPG</h3><p>Adjust JPG quality and start the conversion in your browser.</p></div>
+<div class="card"><div class="icon">⬇️</div><h3>3. Download images</h3><p>Download each converted JPG file individually.</p></div>
+</div></section>
+<section class="section faq"><h2>Frequently asked questions</h2>
+<details><summary>What is a HEIC file?</summary><p>HEIC is an image format commonly used by Apple devices to store photos efficiently.</p></details>
+<details><summary>Will converting HEIC to JPG reduce quality?</summary><p>JPG uses lossy compression. A higher quality setting generally preserves more visual detail but may create larger files.</p></details>
+<details><summary>Are my photos uploaded?</summary><p>This prototype performs conversion in the browser using a client-side library. Because the library is loaded from a CDN, verify network requests and the deployed implementation before making a definitive privacy claim.</p></details>
+<details><summary>Why did a file fail?</summary><p>Some files may be unsupported, damaged, unusually large, or incompatible with a browser or device. Try a smaller file or another browser if conversion fails.</p></details>
+</section>
+</main>
+<footer class="footer"><div class="wrap"><div class="footerlinks"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms</a><a href="about.html">About</a><a href="contact.html">Contact</a></div><div>© <span id="year"></span> ConvertKit. A starter project; replace this name after checking domain and trademark availability.</div><div style="margin-top:8px">This tool is provided as-is. Always keep a copy of your original files.</div></div></footer>
+<script src="https://unpkg.com/heic2any@0.0.4/dist/heic2any.min.js"></script>
+<script>
+const picker=document.getElementById('picker'),drop=document.getElementById('drop'),choose=document.getElementById('choose'),convertBtn=document.getElementById('convert'),filesEl=document.getElementById('files'),summary=document.getElementById('summary'),quality=document.getElementById('quality'),qvalue=document.getElementById('qvalue');
+let selected=[];
+document.getElementById('year').textContent=new Date().getFullYear();
+quality.addEventListener('input',()=>qvalue.textContent=quality.value+'%');
+choose.addEventListener('click',e=>{e.stopPropagation();picker.click()});
+drop.addEventListener('click',e=>{if(e.target!==choose)picker.click()});
+drop.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();picker.click()}});
+picker.addEventListener('change',()=>setFiles([...picker.files]));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
+drop.addEventListener('drop',e=>setFiles([...e.dataTransfer.files]));
+function setFiles(list){selected=list.filter(f=>/\.(heic|heif)$/i.test(f.name)||/image\/hei[cf]/i.test(f.type));render();if(list.length&&!selected.length)summary.textContent='No HEIC/HEIF files detected. Please choose HEIC or HEIF photos.'}
+function render(){filesEl.innerHTML='';summary.textContent=selected.length?`${selected.length} file(s) selected.`:'No files selected yet.';convertBtn.disabled=!selected.length;selected.forEach((f,i)=>{const row=document.createElement('div');row.className='file';row.innerHTML=`<div class="thumb" style="display:grid;place-items:center">📷</div><div class="fileinfo"><div class="filename"></div><div class="status">Ready to convert · ${formatBytes(f.size)}</div></div><span class="download" id="download-${i}"></span>`;row.querySelector('.filename').textContent=f.name;filesEl.appendChild(row)})}
+function formatBytes(n){if(n<1024)return n+' B';if(n<1048576)return (n/1024).toFixed(1)+' KB';return (n/1048576).toFixed(1)+' MB'}
+convertBtn.addEventListener('click',async()=>{if(typeof heic2any!=='function'){summary.textContent='Conversion library did not load. Check your internet connection and reload the page.';return}
+convertBtn.disabled=true;let success=0;
+for(let i=0;i<selected.length;i++){const f=selected[i],row=filesEl.children[i],status=row.querySelector('.status'),download=row.querySelector('.download');status.textContent='Converting…';status.className='status';
+try{const result=await heic2any({blob:f,toType:'image/jpeg',quality:Number(quality.value)/100});const blob=Array.isArray(result)?result[0]:result;const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=f.name.replace(/\.(heic|heif)$/i,'')+'.jpg';a.textContent='Download JPG';a.className='download';download.replaceWith(a);status.textContent='Converted successfully · '+formatBytes(blob.size);status.className='status ok';success++}
+catch(err){status.textContent='Could not convert this file. Try another image or browser.';status.className='status err'}
+}
+summary.textContent=`Finished: ${success} of ${selected.length} file(s) converted.`;convertBtn.disabled=false;
+});
+</script>
+</body>
+</html>
